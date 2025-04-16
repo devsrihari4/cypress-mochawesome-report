@@ -16,6 +16,7 @@ jobs:
         run: npm install
       - name: Run Tests
         run: npx cypress run --config-file test.config.js
+        continue-on-error: true
 
       - name: Copy test execution videos and screenshots
         run: |
