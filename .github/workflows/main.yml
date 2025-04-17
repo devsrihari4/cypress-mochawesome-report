@@ -24,15 +24,15 @@ jobs:
           cp -r cypress/videos public/videos
           cp -r cypress/screenshots public/screenshots
 
-      - name: Merge test reports
-        run: npm run combine:report
+      # - name: Merge test reports
+      #   run: npm run combine:report
 
-      - name: Generate HTML report
-        run: npm run generate:report
+      # - name: Generate HTML report
+      #   run: npm run generate:report
       
       - name: Deploy report page to GitHub Page
         uses: peaceiris/actions-gh-pages@v4
         with:
           github_token: ${{ secrets.GITHUB_TOKEN }}
-          publish_dir: ./public
+          publish_dir: ./reports/index.html
           
