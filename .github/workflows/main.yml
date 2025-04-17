@@ -30,9 +30,14 @@ jobs:
       # - name: Generate HTML report
       #   run: npm run generate:report
       
+      # - name: Deploy report page to GitHub Page
+      #   uses: peaceiris/actions-gh-pages@v4
+      #   with:
+      #     github_token: ${{ secrets.GITHUB_TOKEN }}
+      #     publish_dir: /cypress/reports/html/index.html
       - name: Deploy report page to GitHub Page
         uses: peaceiris/actions-gh-pages@v4
-        with:
+        env:
           github_token: ${{ secrets.GITHUB_TOKEN }}
-          publish_dir: ./reports
-          
+          publish_branch: gh-pages
+          publish_dir: ./cypress/reports/html/index.html
