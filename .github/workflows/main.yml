@@ -37,7 +37,7 @@ jobs:
       #     publish_dir: /cypress/reports/html/index.html
       - name: Deploy report page to GitHub Page
         uses: peaceiris/actions-gh-pages@v4
-        env:
+        with:
           github_token: ${{ secrets.GITHUB_TOKEN }}
           publish_branch: gh-pages
           publish_dir: ./cypress/reports/html/index.html
