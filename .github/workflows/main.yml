@@ -34,7 +34,7 @@ jobs:
         uses: peaceiris/actions-gh-pages@v4
         with:
           github_token: ${{ secrets.GITHUB_TOKEN }}
-          publish_dir: /home/runner/work/cypress-mochawesome-report/cypress-mochawesome-report/cypress/reports
+          publish_dir: ./reports
       # - name: Deploy report page to GitHub Page
       #   uses: peaceiris/actions-gh-pages@v4
       #   with:
