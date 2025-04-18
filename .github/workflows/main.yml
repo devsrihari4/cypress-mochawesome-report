@@ -30,23 +30,11 @@ jobs:
       # - name: Generate HTML report
       #   run: npm run generate:report
 
-      - name: Move Report to Docs
-        run: |
-          mkdir docs
-          cp -r cypress/reports/* docs/
-
-      - name: Deploy to GitHub Pages
-        uses: peaceiris/actions-gh-pages@v3
+      - name: Deploy report page to GitHub Page
+        uses: peaceiris/actions-gh-pages@v4
         with:
           github_token: ${{ secrets.GITHUB_TOKEN }}
-          publish_dir: ./docs
-
-      
-      # - name: Deploy report page to GitHub Page
-      #   uses: peaceiris/actions-gh-pages@v4
-      #   with:
-      #     github_token: ${{ secrets.GITHUB_TOKEN }}
-      #     publish_dir: ./report
+          publish_dir: cypress/reports/html
 
 
       # - name: Deploy report page to GitHub Page
