@@ -8,6 +8,8 @@ module.exports = defineConfig({
     reportPageTitle: 'custom-title',
     embeddedScreenshots: true,
     inlineAssets: true,
+    videoOnFailOnly: false,
+    saveAllAttempts: false
   },
   e2e: {
     setupNodeEvents(on, config) {
