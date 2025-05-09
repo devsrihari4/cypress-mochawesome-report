@@ -1,5 +1,5 @@
 const { defineConfig } = require("cypress");
-
+const cypressSplit = require('cypress-split')
 module.exports = defineConfig({
   reporter: 'cypress-mochawesome-reporter',
   video: true,
@@ -14,7 +14,9 @@ module.exports = defineConfig({
   e2e: {
     setupNodeEvents(on, config) {
       // implement node event listeners here
+      cypressSplit(on, config)
       require('cypress-mochawesome-reporter/plugin')(on);
+      return config
     },
   },
 });

@@ -8,14 +8,14 @@ jobs:
     strategy:
             fail-fast: false
             matrix:
-             containers: [ 0,1 ]
+             containers: [ 1,2 ]
     steps:
       - name: Checkout
         uses: actions/checkout@v3
       - name: Install Packages
         run: npm install
       - name: Run Tests
-        run: npx cypress run --config-file test.config.js --spec $(node cypress-parallel.js ${{ matrix.containers }} 2)
+        run: npx cypress run --config-file test.config.js
         continue-on-error: true
   job2:
     name: reports
