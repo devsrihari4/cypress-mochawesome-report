@@ -21,6 +21,7 @@ jobs:
     name: reports
     if: always ()
     runs-on: ubuntu-latest
+    needs: job1
     steps:
       - name: Deploy report page to GitHub Page
         uses: peaceiris/actions-gh-pages@v4
