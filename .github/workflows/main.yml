@@ -15,7 +15,7 @@ jobs:
       - name: Install Packages
         run: npm install
       - name: Run Tests
-        run: npm run scripts
+        run: npx cypress run --config-file test.config.js --spec $(node cypress-parallel.js ${{ matrix.containers }} 2) || npm run pretest || npm run test 
         continue-on-error: true
   job2:
     name: reports
