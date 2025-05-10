@@ -7,19 +7,19 @@ jobs:
     strategy:
       fail-fast: false
       matrix:
-        machine: [1, 2]  # 3 parallel machines
+       containers: [ 0,1 ]
     steps:
       - name: Checkout
         uses: actions/checkout@v3
       - name: Install Packages
         run: npm install
       - name: Run Tests
-        run: npx cypress run --config-file test.config.js --spec $(node cypress-parallel.js ${{ matrix.machine }} 2)
+        run: npx cypress run --config-file test.config.js --spec $(node cypress-parallel.js ${{ matrix.containers }} 2)
         continue-on-error: true
       - name: Upload Mochawesome reports
         uses: actions/upload-artifact@v4
         with:
-          name: mochawesome-reports-${{ matrix.machine }}
+          name: mochawesome-reports-${{ matrix.containers }}
           path: cypress/reports
 
   merge-and-publish:
