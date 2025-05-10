@@ -34,7 +34,7 @@ jobs:
           path: merged-reports
 
       - name: list downloaded files
-        run: ls -R merged-reports
+        run: ls -R merged-reports || echo "No files downloaded"
 
       - name: Install mochawesome tools
         run: |
@@ -42,7 +42,8 @@ jobs:
 
       - name: Merge mochawesome JSON files
         run: |
-          mkdir final-report
+          mkdir -p final-report
+          echo "Merging the following JSON files:"
           find merged-reports -name "*.json" -print
           npx mochawesome-merge $(find merged-reports -name "*.json") > final-report/merged.json
 
