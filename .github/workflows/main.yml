@@ -2,29 +2,51 @@ name: Cypress Automation Tests
 on:
   workflow_dispatch:
 jobs:
-  job1:
-    name: cypress-run
+  cypress-parallel:
     runs-on: ubuntu-latest
     strategy:
-            fail-fast: false
-            matrix:
-             containers: [ 0,1 ]
+      fail-fast: false
+      matrix:
+        machine: [1, 2]  # 3 parallel machines
     steps:
       - name: Checkout
         uses: actions/checkout@v3
       - name: Install Packages
         run: npm install
       - name: Run Tests
-        run: npx cypress run --config-file test.config.js --spec $(node cypress-parallel.js ${{ matrix.containers }} 2) || npm run pretest || npm run test 
+        run: npx cypress run --config-file test.config.js --spec $(node cypress-parallel.js ${{ matrix.machine }} 2)
         continue-on-error: true
-  job2:
-    name: reports
-    if: always ()
+      - name: Upload Mochawesome reports
+        uses: actions/upload-artifact@v4
+        with:
+          name: mochawesome-reports-${{ matrix.machine }}
+          path: cypress/reports
+
+  merge-and-publish:
     runs-on: ubuntu-latest
-    needs: job1
+    needs: cypress-parallel
     steps:
-      - name: Deploy report page to GitHub Page
+      - uses: actions/checkout@v4
+      - name: Download all artifacts
+        uses: actions/download-artifact@v4
+        with:
+          path: merged-reports
+
+      - name: Install mochawesome tools
+        run: |
+          npm install -g mochawesome-merge mochawesome-report-generator
+
+      - name: Merge mochawesome JSON files
+        run: |
+          mkdir final-report
+          npx mochawesome-merge merged-reports/**/cypress/reports/*.json > final-report/merged.json
+
+      - name: Generate final HTML report
+        run: |
+          npx marge final-report/merged.json --reportDir final-report --reportFilename index.html
+
+      - name: Deploy to GitHub Pages
         uses: peaceiris/actions-gh-pages@v4
         with:
           github_token: ${{ secrets.GITHUB_TOKEN }}
-          publish_dir: mochawesome-report/mochawesome.html
+          publish_dir: ./final-report
