@@ -27,10 +27,14 @@ jobs:
     needs: cypress-parallel
     steps:
       - uses: actions/checkout@v4
+
       - name: Download all artifacts
         uses: actions/download-artifact@v4
         with:
           path: merged-reports
+
+      - name: list downloaded files
+        run: ls -R merged-reports
 
       - name: Install mochawesome tools
         run: |
@@ -39,7 +43,8 @@ jobs:
       - name: Merge mochawesome JSON files
         run: |
           mkdir final-report
-          npx mochawesome-merge merged-reports/**/cypress/reports/*.json > final-report/merged.json
+          find merged-reports -name "*.json" -print
+          npx mochawesome-merge $(find merged-reports -name "*.json") > final-report/merged.json
 
       - name: Generate final HTML report
         run: |
